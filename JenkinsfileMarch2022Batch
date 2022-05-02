@@ -34,6 +34,8 @@ properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKe
 
 def mavenHome = tool name: 'maven 3.8.5'
 
+try {
+
 //Get the code from GitHub Repository
 stage('checkout'){
 git branch: 'development', credentialsId: '74f1f319-8f23-4fb1-b052-f6fd153f3322', url: 'https://github.com/renu-renu/maven-web-application.git'
@@ -59,4 +61,16 @@ sshagent(['fb7db6ab-1d6e-444e-a3b4-b524cfdff3cf']) {
 sh "scp -o strictHostkeyChecking=no target/maven-web-application.war ec2-user@3.134.85.119:/opt/apache-tomcat-9.0.62/webapps/"
 }
 }
+*/
+}// try closing
+catch(e){
+currentBuild.result = "FAILED"
 }
+finally{
+sendSlackNotifications(currentBuid.result)
+}
+}//Node closing
+
+}
+
+

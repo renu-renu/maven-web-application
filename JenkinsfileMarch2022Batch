@@ -36,6 +36,8 @@ def mavenHome = tool name: 'maven 3.8.5'
 
 try{
 
+sendSlackNotifications('STARTED')
+
 //Get the code from GitHub Repository
 stage('checkout'){
 git branch: 'development', credentialsId: '74f1f319-8f23-4fb1-b052-f6fd153f3322', url: 'https://github.com/renu-renu/maven-web-application.git'
